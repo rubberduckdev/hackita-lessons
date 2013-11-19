@@ -3,23 +3,24 @@ Hackita lessons
 '''
 
 from bottle import route, default_app, run, get, post, request
+import itertools
 
 @route('/<somesuch>')
 def hello(somesuch):
     return "Hello from bottle! :-)" + "<br /> " + somesuch
 
 def bottles(n):
-    return [
+    return itertools.chain((
         sentence
         for i in range(n, 0, -1)
-        for sentence in [
+        for sentence in (
             '{bottlenum} bottles of beer on the wall, {bottlenum} bottles of beer.'.format(bottlenum=i),
             'Take one down, pass it around, {bottlenum} bottles of beer on the wall...'.format(bottlenum=i-1),
             '<br />',
-        ]
-    ] + [
-        "No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, 99 bottles of beer on the wall.",
-    ]
+        )),
+        [
+         "No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, 99 bottles of beer on the wall.",
+        ])
 
 def bottles_html(n):
     return '<br />'.join(bottles(n))
