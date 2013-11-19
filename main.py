@@ -8,7 +8,7 @@ Hackita lessons
 from bottle import route, default_app, run
 
 @route('/')
-def get():
+def hello():
     return "Hello from bottle! :-)"
 
 application = default_app()
