@@ -1,55 +1,60 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 '''
 Hackita lessons
 '''
 
-from bottle import route, default_app, run, get, post, request
-import itertools
+from bottle import route, default_app, run, template
 
-@route('/<somesuch>')
-def hello(somesuch):
-    return "Hello from bottle! :-)" + "<br /> " + somesuch
+import hello
+import gematria
+import bottles_song
+import palindrome
+import most_common_word
+import multiplication_list
+import letter_count
+import palindrome
+import most_common_word
+import html_list
+#import html_table
+import linkify
+'''
+import html_anchor
+import the_world_s_countries_and_us
+'''
 
-def bottles(n):
-    return itertools.chain((
-        sentence
-        for i in range(n, 0, -1)
-        for sentence in (
-            '{bottlenum} bottles of beer on the wall, {bottlenum} bottles of beer.'.format(bottlenum=i),
-            'Take one down, pass it around, {bottlenum} bottles of beer on the wall...'.format(bottlenum=i-1),
-            '<br />',
-        )),
-        [
-         "No more bottles of beer on the wall, no more bottles of beer. Go to the store and buy some more, 99 bottles of beer on the wall.",
-        ])
 
-def bottles_html(n):
-    return '<br />'.join(bottles(n))
+@route('/')
+def index():
+    return template(
+        u"""
+<ul>
+% for route, text in route_text_list:
+  <li><a href="{{route}}">{{text}}</a></li>
+% end
+</ul>""",
+        [("/bottles", "bottles"),
+         ("/gematria", "gematria"),
+         ("/multiplication_list", "multiplication list"),
+         ("/palindrome", "palindrome"),
+         ("/most_common_word", "most common word"),
+         ("/html_list", "html list"),
+         ("/html_table", "html table"),
+         ("/linkify", "linkify"),
+         ("/html_anchor", "html anchor"),
+         ("/the_world_s_countries_and_us", "the world's countries and us"),
+        ],
+    )
 
-@get('/bottles')
-@get('/bottles/')
-def bottle_get():
-    return '''
-    <br /><br />
-        <form action="/bottles" method="post">
-            Number of bottles: <input name="n" type="number" />
-            <input value="Break some bottles" type="submit" />
-        </form>
-    '''
-    
-@get('/bottles/<n:int>')
-def bottle_n(n):
-    return bottles_html(n)
-
-@post('/bottles')
-def bottle_bottles():
-    return bottles_html(int(request.forms.get('n'))) + bottle_get()
-    
 
 application = default_app()
 
 if __name__ == '__main__':
     run(
         host='localhost',
-        port=8080,
+        port=8081,
         reloader=True,
+        debug=True,
     )
+o
