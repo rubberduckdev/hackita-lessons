@@ -1,0 +1,6 @@
+[submodule "weatherism"]
+	path = weatherism
+    url = git://github.com/rubberduckdev/weatherism.git
+[submodule "bottle"]
+	path = bottle
+	url = git://github.com/defnull/bottle.git
